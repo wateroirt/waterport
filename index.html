@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>WaterPort Alpha</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/popupstyle.css"
+  >
+
+</head>
+
+<body>
+
+  <main id="game">
+
+    <section id="top-ui">
+
+      <div id="score">0</div>
+
+<div id="level">1</div>
+
+    </section>
+
+    <section id="play-layer">
+
+      <div id="faucet-column"></div>
+
+      <div id="board-shell">
+        <div id="board"></div>
+      </div>
+
+      <div id="tank-column"></div>
+
+    </section>
+
+    <section id="bottom-layer">
+
+      <button
+        id="records-button"
+        title="Ver récords"
+      >
+        ★
+      </button>
+
+      <div id="message">
+        HAZ CLIC EN UNA CASILLA
+      </div>
+
+      <div id="timer">
+        03:00
+      </div>
+
+    </section>
+
+    <div id="popup-message"></div>
+
+    <!-- Entrada de iniciales -->
+
+    <section id="record-entry">
+
+      <div class="record-entry-panel">
+
+        <h2>NUEVO RÉCORD</h2>
+
+        <label for="record-initials">
+          ESCRIBE TUS INICIALES
+        </label>
+
+        <input
+          id="record-initials"
+          type="text"
+          maxlength="3"
+          inputmode="text"
+          autocomplete="off"
+          autocapitalize="characters"
+          spellcheck="false"
+          aria-label="Iniciales del jugador"
+        >
+
+        <button id="record-save-button">
+          GUARDAR
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- Ventana de récords -->
+
+    <section id="records-window">
+
+      <div class="records-panel">
+
+        <h2>RÉCORDS</h2>
+
+        <h3>MEJORES PUNTUACIONES</h3>
+
+        <div id="score-records-list"></div>
+
+        <div class="records-separator"></div>
+
+        <h3>MEJORES TIEMPOS</h3>
+
+        <div id="time-records-list"></div>
+
+        <div class="records-buttons">
+
+          <button id="records-delete-button">
+            BORRAR 
+          </button>
+
+          <button id="records-close-button">
+            CERRAR
+          </button>
+
+        </div>
+
+        <div id="records-confirmation">
+
+          <p>¿BORRAR TODOS LOS RÉCORDS?</p>
+
+          <div class="records-confirmation-buttons">
+
+            <button id="records-confirm-no">
+              NO
+            </button>
+
+            <button id="records-confirm-yes">
+              SÍ
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/gamestate.js"></script>
+  <script src="js/tile.js"></script>
+  <script src="js/tank.js"></script>
+  <script src="js/generator.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/levelmanager.js"></script>
+  <script src="js/scoremanager.js"></script>
+  <script src="js/timemanager.js"></script>
+  <script src="js/gameplay.js"></script>
+  <script src="js/water.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/popupmanager.js"></script>
+  <script src="js/recordmanager.js"></script>
+  <script src="js/recordentry.js"></script>
+  <script src="js/recordsview.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>
