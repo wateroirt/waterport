@@ -1,0 +1,740 @@
+/*
+  WaterPort Alpha 0.1 - Paso 5
+  style.css oficial estable
+*/
+
+:root {
+  --game-width: 1920px;
+  --game-height: 1080px;
+
+  --tile-size: 164px;
+  --board-cols: 6;
+  --board-rows: 5;
+  --board-gap: 6px;
+
+  --board-padding: 10px;
+  --board-frame: 8px;
+
+  --board-inner-width:
+    calc(
+      (var(--tile-size) * var(--board-cols)) +
+      (var(--board-gap) * (var(--board-cols) - 1))
+    );
+
+  --board-inner-height:
+    calc(
+      (var(--tile-size) * var(--board-rows)) +
+      (var(--board-gap) * (var(--board-rows) - 1))
+    );
+}
+
+/* =======================================================
+   BASE
+   ======================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+
+  background: #000;
+  color: #f5ead0;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#game {
+  position: relative;
+
+  width: var(--game-width);
+  height: var(--game-height);
+
+  overflow: hidden;
+  transform-origin: top left;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.04),
+      rgba(0, 0, 0, 0.04)
+    ),
+    url("../assets/backgrounds/background_base.png");
+
+  background-size: cover;
+  background-position: center;
+}
+
+/* =======================================================
+   PUNTUACIÓN Y NIVEL
+   ======================================================= */
+
+#top-ui {
+  position: absolute;
+  inset: 0;
+
+  z-index: 40;
+  pointer-events: none;
+}
+#score {
+  position: absolute;
+
+  left: 1700px;
+  top: 35px;
+  width: 100px;
+
+  text-align: center;
+
+  font-size: 34px;
+  font-weight: bold;
+  line-height: 1;
+
+  color: #f8f3d8;
+  text-shadow: 1px 1px 2px rgba(0,0,0,.75);
+
+  z-index: 41;
+}
+
+#level {
+  position: absolute;
+
+  left: 1840px;
+  top: 35px;
+  width: 44px;
+
+  text-align: center;
+
+  font-size: 34px;
+  font-weight: bold;
+  line-height: 1;
+
+  color: #f8f3d8;
+  text-shadow: 1px 1px 2px rgba(0,0,0,.75);
+
+  z-index: 41;
+}
+
+/* =======================================================
+   CAPA DE JUEGO
+   ======================================================= */
+
+#play-layer {
+  position: absolute;
+  inset: 0;
+
+  z-index: 20;
+}
+
+/* =======================================================
+   COLUMNAS DE GRIFOS Y BIDONES
+   ======================================================= */
+
+#faucet-column,
+#tank-column {
+
+  position: absolute;
+
+  top: 69px;
+
+  width: 100px;
+  height: var(--board-inner-height);
+
+}
+
+#faucet-column {
+
+  left: 340px;
+
+}
+
+#tank-column {
+
+  left: 1560px;
+
+  display: grid;
+
+  grid-template-rows: repeat(5, 1fr);
+
+  gap: 6px;
+
+  align-items: center;
+
+}
+
+
+/* =======================================================
+   BIDONES
+   ======================================================= */
+
+.tank-indicator {
+
+  width: 100px;
+  height: 100px;
+
+  margin: 0 auto;
+
+  border: none;
+  border-radius: 0;
+
+  background-image:
+    url("../assets/tanks/tank_empty.png");
+
+  background-repeat: no-repeat;
+
+  background-position: center;
+
+  background-size: contain;
+
+  box-shadow: none;
+
+}
+
+.tank-indicator.tank-filled {
+
+  background-image:
+    url("../assets/tanks/tank_full.png");
+
+  background-repeat: no-repeat;
+
+  background-position: center;
+
+  background-size: contain;
+
+}
+
+/* =======================================================
+   TABLERO
+   ======================================================= */
+
+#board-shell {
+  position: absolute;
+
+  left: 464px;
+  top: 69px;
+
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+  box-shadow: none;
+}
+
+#board {
+  display: grid;
+
+  width: var(--board-inner-width);
+  height: var(--board-inner-height);
+
+  grid-template-columns:
+    repeat(var(--board-cols), var(--tile-size));
+
+  grid-template-rows:
+    repeat(var(--board-rows), var(--tile-size));
+
+  gap: var(--board-gap);
+}
+
+/* =======================================================
+   CASILLAS
+   ======================================================= */
+
+.tile {
+  position: relative;
+
+  width: var(--tile-size);
+  height: var(--tile-size);
+
+  overflow: hidden;
+  cursor: pointer;
+
+  border-radius: 4px;
+
+  background: rgba(30, 31, 27, 0.92);
+
+  box-shadow:
+    inset 0 0 12px rgba(255, 255, 255, 0.06),
+    inset 0 0 22px rgba(0, 0, 0, 0.55);
+}
+
+.tile:hover {
+  filter: brightness(1.12);
+}
+
+/* =======================================================
+   TUBERÍAS
+   ======================================================= */
+
+.pipe {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  transform-origin: center;
+  transition: transform 90ms ease-out;
+}
+
+.pipe::before,
+.pipe::after {
+  content: "";
+
+  position: absolute;
+
+  background:
+    linear-gradient(
+      180deg,
+      #d89548 0%,
+      #9e5527 35%,
+      #522a18 50%,
+      #b86c32 72%,
+      #f0b25c 100%
+    );
+
+  box-shadow:
+    inset 0 8px 10px rgba(255, 255, 255, 0.22),
+    inset 0 -8px 12px rgba(0, 0, 0, 0.38),
+    0 3px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* Recta */
+
+.pipe.straight {
+
+  background-image:
+    url("../assets/tiles/horizontal_basica.png");
+
+  background-repeat: no-repeat;
+
+  background-position: center;
+
+  background-size: contain;
+
+}
+
+.pipe.straight::before,
+.pipe.straight::after {
+
+  display: none;
+
+}
+
+
+/* =======================================================
+   Agua - Recta
+======================================================= */
+
+.water-tile .pipe.straight {
+
+  background-image:
+    url("../assets/tiles/horizontal_water.png");
+
+}
+
+/* Curva */
+
+.pipe.curve {
+
+  background-image:
+    url("../assets/tiles/curva_basica.png");
+
+  background-repeat: no-repeat;
+
+  background-position: center;
+
+  background-size: contain;
+
+}
+
+.pipe.curve::before,
+.pipe.curve::after {
+
+  display: none;
+
+}
+.water-tile .pipe.curve {
+
+  background-image:
+    url("../assets/tiles/curva_water.png");
+
+}
+
+
+/* T */
+
+.pipe.tee {
+
+  background-image:
+    url("../assets/tiles/T_basica.png");
+
+  background-repeat: no-repeat;
+
+  background-position: center;
+
+  background-size: contain;
+
+}
+
+.pipe.tee::before,
+.pipe.tee::after {
+
+  display: none;
+
+}
+
+.pipe.tee::after {
+
+  left: 50%;
+  top: -2px;
+
+  width: 48px;
+  height: 84px;
+
+  border-radius: 999px;
+
+  transform: translateX(-50%);
+
+}
+
+
+/* =======================================================
+   Agua - T
+======================================================= */
+
+.water-tile .pipe.tee {
+
+  background-image:
+    url("../assets/tiles/T_water.png");
+
+}
+/* Cruz */
+
+.pipe.cross {
+
+  background-image:
+    url("../assets/tiles/cruz_basica.png");
+
+  background-repeat: no-repeat;
+
+  background-position: center;
+
+  background-size: contain;
+
+}
+
+.pipe.cross::before,
+.pipe.cross::after {
+
+  display: none;
+
+}
+
+.pipe.cross::after {
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+
+  width: 48px;
+
+  border-radius: 999px;
+
+  transform: translateX(-50%);
+}
+
+/* =======================================================
+   Agua
+======================================================= */
+
+.water-tile .pipe.cross {
+
+  background-image:
+    url("../assets/tiles/cruz_water.png");
+
+}
+
+/* =======================================================
+   ESTADOS VISUALES DE LAS CASILLAS
+   ======================================================= */
+
+.selected-tile {
+  outline: 5px solid #f2d34f;
+  outline-offset: -5px;
+}
+
+.connected-neighbor {
+  outline: 5px solid #48d66b;
+  outline-offset: -5px;
+}
+
+.water-tile {
+  /* outline: 5px solid #3aa7ff; */
+  /* outline-offset: -5px; */
+
+  filter: brightness(1.25);
+}
+
+.frozen-tile {
+  cursor: not-allowed;
+
+  outline: 7px solid #bdefff;
+  outline-offset: -7px;
+
+  background:
+    linear-gradient(
+      rgba(190, 240, 255, 0.55),
+      rgba(90, 175, 225, 0.55)
+    );
+
+  filter: brightness(1.15);
+}
+
+/* =======================================================
+   MARCADORES DE CASILLA
+   ======================================================= */
+
+/* Premio provisional */
+
+.reward-marker {
+
+  position: absolute;
+
+  right: 2px;
+  bottom: 4px;
+
+  z-index: 10;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 40px;
+  font-weight: 900;
+
+  background: linear-gradient(
+      180deg,
+      #fffef4 0%,
+      #fff4b0 25%,
+      #ffe66d 50%,
+      #ffbf00 75%,
+      #b97700 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-shadow:
+      0 3px 6px rgba(0,0,0,.85),
+      0 0 10px rgba(255,210,70,.45),
+      0 0 20px rgba(255,210,70,.20);
+
+  pointer-events: none;
+
+}
+
+/* Reloj provisional */
+
+.clock-marker {
+
+  position: absolute;
+
+  right: 0px;
+  bottom: 10px;
+
+  z-index: 10;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 28px;
+  font-weight: 900;
+
+  background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #c8ffd4 25%,
+      #7dff98 50%,
+      #2ecc71 75%,
+      #0a8f3f 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-shadow:
+      0 3px 6px rgba(0,0,0,.85),
+      0 0 10px rgba(70,255,140,.45),
+      0 0 20px rgba(70,255,140,.20);
+
+  pointer-events: none;
+
+}
+
+/* Multiplicador provisional */
+
+.multiplier-marker {
+
+  position: absolute;
+
+  right: 10px;
+  bottom: 10px;
+
+  z-index: 10;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+font-size: 62px;
+font-weight: 900;
+
+background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #8fd8ff 30%,
+    #3aa8ff 60%,
+    #0058d8 100%
+);
+
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+
+text-shadow:
+    0 3px 6px rgba(0,0,0,.85),
+    0 0 10px rgba(80,180,255,.45),
+    0 0 20px rgba(80,180,255,.20);
+
+  pointer-events: none;
+
+}
+
+/* =======================================================
+   CAPA INFERIOR
+   ======================================================= */
+
+#bottom-layer {
+  position: absolute;
+
+  left: 110px;
+  top: 938px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 24px;
+
+  z-index: 40;
+}
+
+#records-button {
+  width: 120px;
+  height: 120px;
+
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+
+  background: transparent;
+  color: transparent;
+  box-shadow: none;
+
+  font-size: 0;
+
+  cursor: pointer;
+
+  margin-left: -30px;
+}
+#message {
+  position: relative;
+  top: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 1460px;
+  height: 50px;
+
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  color: #5cff5c;
+
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 1px;
+
+  text-shadow:
+    0 0 4px rgba(80, 255, 80, .45),
+    1px 1px 2px rgba(0, 0, 0, .70);
+}
+
+#timer {
+  position: relative;
+  top: -14px;
+
+  width: 100px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+
+  color: #2f6b3f;
+
+  font-size: 42px;
+  font-weight: bold;
+
+  text-shadow:
+    0 0 4px rgba(80,255,80,.45),
+    1px 1px 2px rgba(0,0,0,.70);
+
+  margin-left: 40px;
+}
+/* =======================================================
+   Casillas bloqueadas
+======================================================= */
+
+.blocked-tile {
+
+  position: relative;
+
+}
+
+.blocked-tile::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    url("../assets/tiles/locked_overlay.png");
+
+  background-repeat: no-repeat;
+
+  background-position: center;
+
+  background-size: contain;
+
+  pointer-events: none;
+
+}
